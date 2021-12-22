@@ -16,6 +16,33 @@ export class CartService {
   }
 
   setProduct(product: any) {
-    this.cartItemList.push(...product)
+    this.cartItemList.push(...product); //push product inside cartItemList
+    this.productList.next(product); //to emit the data; next will pass it to wherever it's been subscribed
+  }
+
+  addtoCart(product: any) {
+    this.cartItemList.push(product) //this will push the product inside the cart
+    this.productList.next(this.cartItemList) //to emit
+    this.getTotalPrice();
+  }
+
+  getTotalPrice() {
+    let grandTotal = 0;
+    this.cartItemList.map((a:any) => {
+      grandTotal += a.total;
+    })
+  }
+
+  removeCartItem(product: any) {
+    this.cartItemList.map((a:any, index:any) => {
+      if(product.id === a.id) {
+        this.cartItemList.splice(index, 1);
+      }
+    })
+  }
+
+  removeAllCart(){
+    this.cartItemList = []
+    this.productList.next(this.cartItemList);
   }
 }
