@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
+import { CartService } from 'src/app/service/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -10,13 +11,22 @@ export class ProductsComponent implements OnInit {
 
   public productList : any ;
 
-  constructor(private api : ApiService) { }
+  constructor(private api : ApiService, private cartService : CartService) { }
 
   ngOnInit(): void {
     this.api.getProduct()
     .subscribe(res=>{
       this.productList = res;
+
+      //for quantity and total, which appears on the cart page but not on the product page
+      this.productList.forEach((a: any) => {
+        Object.assign(a, {quantity: 1, total:a.price}) //assign an object, target is the element, assign quantity and price
+      });
     })
+  }
+
+  addtocart(item: any){
+    this.cartService.addtoCart(item);
   }
 
 }

@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class CartService {
 
   public cartItemList : any = []
-  public productList = new BehaviorSubject<any>([]);
+  public productList = new BehaviorSubject<any>([]); //contains the current value; holds value that needs to be shared with other components
 
   constructor() { }
 
@@ -24,6 +24,7 @@ export class CartService {
     this.cartItemList.push(product) //this will push the product inside the cart
     this.productList.next(this.cartItemList) //to emit
     this.getTotalPrice();
+    console.log(this.cartItemList);
   }
 
   getTotalPrice() {
@@ -34,9 +35,9 @@ export class CartService {
   }
 
   removeCartItem(product: any) {
-    this.cartItemList.map((a:any, index:any) => {
+    this.cartItemList.map((a:any, index:any) => { //index is whichever item we need to remove
       if(product.id === a.id) {
-        this.cartItemList.splice(index, 1);
+        this.cartItemList.splice(index, 1); //can remove one item from the cart by this method
       }
     })
   }
