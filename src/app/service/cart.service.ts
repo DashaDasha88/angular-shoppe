@@ -24,7 +24,6 @@ export class CartService {
     this.cartItemList.push(product) //this will push the product inside the cart
     this.productList.next(this.cartItemList) //to emit
     this.getTotalPrice();
-    console.log(this.cartItemList);
   }
 
   getTotalPrice(): number {
@@ -41,6 +40,7 @@ export class CartService {
         this.cartItemList.splice(index, 1); //can remove one item from the cart by this method
       }
     })
+    this.productList.next(this.cartItemList);
   }
 
   removeAllCart(){
